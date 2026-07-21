@@ -145,6 +145,14 @@ class WorkOrderIn(BaseModel):
     description: str = ""
 
 
+class WorkOrderUpdate(BaseModel):
+    title: Optional[str] = None
+    equipment: Optional[str] = None
+    status: Optional[str] = None
+    priority: Optional[str] = None
+    description: Optional[str] = None
+
+
 # ============ Maintenance Report ============
 class MaintenanceReport(BaseDoc):
     user_id: str

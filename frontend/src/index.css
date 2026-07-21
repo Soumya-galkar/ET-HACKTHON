@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Industrial SCADA — dark mode locked */
+        --background: 222 32% 6%;         /* #0A0D14 */
+        --foreground: 210 40% 98%;        /* #F8FAFC */
+        --card: 222 25% 11%;              /* #141824 */
+        --card-foreground: 210 40% 98%;
+        --popover: 222 25% 11%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 187 100% 50%;          /* #00E5FF electric cyan */
+        --primary-foreground: 0 0% 5%;
+        --secondary: 220 20% 14%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 220 18% 16%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 220 20% 14%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 12 90% 55%;        /* #FF5722 */
+        --destructive-foreground: 0 0% 98%;
+        --border: 220 25% 20%;            /* #232B3B */
+        --input: 220 25% 20%;
+        --ring: 187 100% 50%;
+        --chart-1: 187 100% 50%;
+        --chart-2: 145 100% 45%;
+        --chart-3: 51 100% 50%;
+        --chart-4: 12 90% 55%;
+        --chart-5: 273 87% 65%;
+        --radius: 2px;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    html, body, #root {
+        height: 100%;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+    }
+    body {
+        margin: 0;
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-image:
+            radial-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px);
+        background-size: 32px 32px;
+    }
+    h1, h2, h3, h4 {
+        font-family: "Chivo", "IBM Plex Sans", sans-serif;
+        letter-spacing: -0.02em;
+    }
+    .mono, code, pre, .kpi {
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+    }
+    /* selection */
+    ::selection { background: hsl(var(--primary) / 0.35); color: hsl(var(--foreground)); }
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+    ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary) / 0.5); }
+}
+
+@layer components {
+    .panel {
+        @apply bg-card border border-border rounded-sm;
+    }
+    .overline {
+        @apply text-xs uppercase tracking-[0.2em] text-muted-foreground;
+        font-family: "IBM Plex Mono", monospace;
+    }
+    .status-dot {
+        @apply inline-block w-2 h-2 rounded-full;
+    }
+    .status-dot.live { background: #00E676; box-shadow: 0 0 8px #00E676; animation: pulse 2s infinite; }
+    .status-dot.warn { background: #FFD600; }
+    .status-dot.crit { background: #FF5722; }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* React Flow overrides */
+.react-flow__node-industrial {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-top-width: 2px;
+    border-radius: 2px;
+    padding: 10px 14px;
+    min-width: 160px;
+    color: hsl(var(--foreground));
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+}
+.react-flow__edge-path { stroke: hsl(var(--border)); stroke-width: 1.2; }
+.react-flow__edge.selected .react-flow__edge-path { stroke: hsl(var(--primary)); }
+.react-flow__controls { background: hsl(var(--card)); border: 1px solid hsl(var(--border)); }
+.react-flow__controls-button { background: hsl(var(--card)) !important; border-bottom: 1px solid hsl(var(--border)) !important; color: hsl(var(--foreground)) !important; }
+.react-flow__minimap { background: hsl(var(--background)) !important; border: 1px solid hsl(var(--border)); }
+.react-flow__background { background-color: hsl(var(--background)); }

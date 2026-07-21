@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Request, HTTPException
-from models import WorkOrder, WorkOrderIn
+from models import WorkOrder, WorkOrderIn, WorkOrderUpdate
 from utils.security import get_current_user
 
 router = APIRouter(prefix="/work-orders", tags=["work_orders"])
@@ -21,10 +21,13 @@ async def list_wo(request: Request, uid: str = Depends(get_current_user)):
 
 
 @router.patch("/{wo_id}")
-async def update(wo_id: str, payload: WorkOrderIn, request: Request, uid: str = Depends(get_current_user)):
+async def update(wo_id: str, payload: WorkOrderUpdate, request: Request, uid: str = Depends(get_current_user)):
     db = request.app.state.db
+    update_data = payload.model_dump(exclude_unset=True)
+    if not update_data:
+        return {"ok": True}
     res = await db.work_orders.update_one(
-        {"id": wo_id, "user_id": uid}, {"$set": payload.model_dump()}
+        {"id": wo_id, "user_id": uid}, {"$set": update_data}
     )
     if res.matched_count == 0:
         raise HTTPException(404, "Work order not found")

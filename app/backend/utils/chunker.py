@@ -20,9 +20,10 @@ def chunk_text(text: str, chunk_size: int = 900, overlap: int = 120) -> List[str
             else:
                 # long paragraph: hard-split with overlap
                 start = 0
+                step = max(1, chunk_size - overlap)
                 while start < len(p):
                     chunks.append(p[start : start + chunk_size])
-                    start += chunk_size - overlap
+                    start += step
                 buf = ""
     if buf:
         chunks.append(buf)

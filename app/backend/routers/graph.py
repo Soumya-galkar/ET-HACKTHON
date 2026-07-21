@@ -31,6 +31,9 @@ async def get_graph(request: Request, uid: str = Depends(get_current_user)):
 
     nodes = list(label_to_node.values())
 
+    # Build a lookup map of node labels to node IDs for O(1) edge target/source lookup
+    label_to_id = {n["label"]: n["id"] for n in nodes}
+
     # edges
     edges = []
     seen_edges = set()
@@ -39,9 +42,9 @@ async def get_graph(request: Request, uid: str = Depends(get_current_user)):
         t_label = id_to_label.get(r["target_id"])
         if not s_label or not t_label:
             continue
-        # find node ids
-        s_node = next((n["id"] for n in nodes if n["label"] == s_label), None)
-        t_node = next((n["id"] for n in nodes if n["label"] == t_label), None)
+        # find node ids using O(1) dictionary lookup
+        s_node = label_to_id.get(s_label)
+        t_node = label_to_id.get(t_label)
         if not s_node or not t_node:
             continue
         key = (s_node, t_node, r["label"])
