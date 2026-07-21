@@ -56,7 +56,7 @@ DB_NAME="test_database"
 CORS_ORIGINS="*"
 
 # LLM integration credentials (use your Gemini API Key)
-EMERGENT_LLM_KEY="your-gemini-or-emergent-api-key"
+GEMINI_API_KEY="your-gemini-or-emergent-api-key"
 
 # JWT configuration for user login sessions
 JWT_SECRET="generate-a-long-random-string-for-security"
